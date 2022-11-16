@@ -1,11 +1,11 @@
 package com.example.mx3.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.Mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.ExceptionUtils;
-import com.example.mx3.mybatis.LambdaQuery;
 import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
@@ -52,7 +52,7 @@ public interface OptionalMapper<T> extends Mapper<T> {
      * @param queryWrapper 实体对象封装操作类（可以为 null,里面的 entity 用于生成 where 语句）
      * @return 行数
      */
-    int delete(@Param(Constants.WRAPPER) LambdaQuery<T> queryWrapper);
+    int delete(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
 
     /**
      * 删除（根据ID 批量删除）
@@ -77,7 +77,7 @@ public interface OptionalMapper<T> extends Mapper<T> {
      * @param updateWrapper 实体对象封装操作类（可以为 null,里面的 entity 用于生成 where 语句）
      * @return 行数
      */
-    int update(@Param(Constants.ENTITY) T entity, @Param(Constants.WRAPPER) LambdaQuery<T> updateWrapper);
+    int update(@Param(Constants.ENTITY) T entity, @Param(Constants.WRAPPER) Wrapper<T> updateWrapper);
 
     /**
      * 根据 ID 查询
@@ -101,8 +101,7 @@ public interface OptionalMapper<T> extends Mapper<T> {
      *
      * @param queryWrapper 实体对象封装操作类（可以为 null）
      */
-    default Optional<T> selectOne(@Param(Constants.WRAPPER) LambdaQuery<T> queryWrapper) {
-        queryWrapper.limit();
+    default Optional<T> selectOne(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper) {
         List<T> ts = this.selectList(queryWrapper);
         if (CollectionUtils.isNotEmpty(ts)) {
             if (ts.size() != 1) {
@@ -119,7 +118,7 @@ public interface OptionalMapper<T> extends Mapper<T> {
      * @param queryWrapper 实体对象封装操作类
      * @return 是否存在记录
      */
-    default boolean exists(LambdaQuery<T> queryWrapper) {
+    default boolean exists(Wrapper<T> queryWrapper) {
         Long count = this.selectCount(queryWrapper);
         return null != count && count > 0;
     }
@@ -130,7 +129,7 @@ public interface OptionalMapper<T> extends Mapper<T> {
      * @param queryWrapper 实体对象封装操作类（可以为 null）
      * @return 数量
      */
-    Long selectCount(@Param(Constants.WRAPPER) LambdaQuery<T> queryWrapper);
+    Long selectCount(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
 
     /**
      * 根据 entity 条件，查询全部记录
@@ -138,7 +137,7 @@ public interface OptionalMapper<T> extends Mapper<T> {
      * @param queryWrapper 实体对象封装操作类（可以为 null）
      * @return 列表
      */
-    List<T> selectList(@Param(Constants.WRAPPER) LambdaQuery<T> queryWrapper);
+    List<T> selectList(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
 
     /**
      * 根据 Wrapper 条件，查询全部记录
@@ -146,7 +145,7 @@ public interface OptionalMapper<T> extends Mapper<T> {
      * @param queryWrapper 实体对象封装操作类（可以为 null）
      * @return 列表
      */
-    List<Map<String, Object>> selectMaps(@Param(Constants.WRAPPER) LambdaQuery<T> queryWrapper);
+    List<Map<String, Object>> selectMaps(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
 
     /**
      * 根据 entity 条件，查询全部记录（并翻页）
@@ -155,6 +154,6 @@ public interface OptionalMapper<T> extends Mapper<T> {
      * @param queryWrapper 实体对象封装操作类（可以为 null）
      * @return 分页列表
      */
-    <E extends IPage<T>> E selectPage(E page, @Param(Constants.WRAPPER) LambdaQuery<T> queryWrapper);
+    <E extends IPage<T>> E selectPage(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
 
 }
