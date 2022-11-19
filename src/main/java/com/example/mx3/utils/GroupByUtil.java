@@ -32,9 +32,15 @@ public class GroupByUtil {
             List<Object> resultList = new ArrayList<>(itemList.size());
             for (Map<String, Object> map : itemList) {
                 var value = map.get(column);
-                if (value != null) {
-                    resultList.add(value);
+                if (value == null) {
+                    continue;
                 }
+                if (value instanceof CharSequence) {
+                    if (StrUtil.isBlank((CharSequence) value)) {
+                        continue;
+                    }
+                }
+                resultList.add(value);
             }
             groupByMap.put(StrUtil.toCamelCase(column), resultList);
         }
