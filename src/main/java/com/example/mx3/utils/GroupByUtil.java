@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class GroupByUtil {
 
-    public <T> Map<String, List<Object>> get(Mapper<T> mapper, String... columns) {
+    public static <T> Map<String, List<Object>> get(Mapper<T> mapper, String... columns) {
         Map<String, List<Object>> groupByMap = new LinkedHashMap<>(columns.length);
         for (String column : columns) {
             column = StrUtil.toUnderlineCase(column);
