@@ -23,12 +23,12 @@ public class ExportUtil {
         );
     }
 
-    public static ResponseEntity<Resource> export(ByteArrayOutputStream bos, String type, String filename) {
+    public static ResponseEntity<Resource> export(ByteArrayOutputStream bos, String contentType, String filename) {
 
         Resource resource = new ByteArrayResource(bos.toByteArray());
 
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/" + type))
+                .contentType(MediaType.parseMediaType("application/" + contentType))
                 .header(
                         HttpHeaders.CONTENT_DISPOSITION,
                         StrUtil.format(
