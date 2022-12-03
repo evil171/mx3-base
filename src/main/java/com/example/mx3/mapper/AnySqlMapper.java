@@ -14,6 +14,8 @@ import java.util.List;
 @Repository
 public interface AnySqlMapper {
 
-    List<LinkedHashMap<String, Object>> exec(String sql);
+    List<LinkedHashMap<String, Object>> selectList(String sql);
+
+    LinkedHashMap<String, Object> selectOne(String sql);
 
 }
